@@ -59,7 +59,6 @@ typedef struct{
     int revisit_count;
     }patientinfo;
 
-char *strlwr(char *str);
 void addpatient(FILE*fp);
 void displaypatient(FILE*fp);
 void deletepatient(FILE*fp);
@@ -83,4 +82,5 @@ void sortbyadmitdate(FILE*fp);//sorts patients by admit date
 //functions for login and update credentials
 void login(FILE*fp);
 void updatecredentials(FILE*fp);
-
+int check_empty(FILE*fp); //checks the file empty or not
+char *strlwr(char *str); //changes the uppercase letters to lowercase letters

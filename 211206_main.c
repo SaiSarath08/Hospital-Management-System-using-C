@@ -10,7 +10,7 @@ int main()
     if(p1==NULL)
     {
         printf("Error Opening file");
-	      printf("If it is first time,plese create login.txt and patient.txt files in your system and then compile it again");
+	      printf("If it is first time,plese create patient.txt file in your system and then compile it again");
         exit(0);
     }
    printf("Main Menu\n"); //displays Main Menu

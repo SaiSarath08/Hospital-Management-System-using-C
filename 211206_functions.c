@@ -7,6 +7,7 @@
 #define minyear 1000
 #define maxrevisits 1000
 
+//function for changing the uppercase letters to lowercase letters
 char *strlwr(char *str){
     unsigned char *p = (unsigned char*) str;
 
@@ -799,7 +800,7 @@ void updatecredentials(FILE*fp) //user can change their credentials
     int option;Login p;
     char username[maxsize];char password[maxsize];
     FILE*p2;
-    p2=fopen("login.txt","rb+");
+    p2=fopen("hmslogin.txt","rb+");
     if(p2==NULL)
     {
         printf("Error Opening File.\n");
@@ -859,52 +860,70 @@ printf("Your new password : %s\n",p.password);
 fclose(p2);
 }
 
-void login(FILE*fp) //a login interface
+void login(FILE*p2) //a login interface
 {
-    FILE*p2;Login p;
-    p2=fopen("login.txt","rb+");
+    Login p;
+    p2=fopen("hmslogin.txt","rb+");
     if(p2==NULL)
     {
         printf("Error Opening File.\n");
-        printf("If it is first time ,please create login.txt in your system and compile it again");
+        printf("If it is first time ,please create hmslogin.txt in your system and compile it again");
         exit(0);
     }
-    fseek(p2, 0, SEEK_SET);
-    fread(&p, sizeof(p), 1, p2);
-    if (strcmp(p.username, "") == 0 && strcmp(p.password, "") == 0) {
-        printf("No existing credentials found. Setting up new credentials.\n");
-        printf("Enter new username: ");
-        scanf("%s", p.username);
-        printf("Enter new password: ");
-        scanf("%s", p.password);
-        fseek(p2, 0, SEEK_END);
-        fwrite(&p, sizeof(p), 1, p2);
-        fclose(p2);
+    else{
+
+        fread(&p, sizeof(p), 1, p2);
+        
+        if(check_empty(p2))
+        {
+            printf("No existing credentials found. Setting up new credentials.\n");
+            printf("Enter new username: ");
+            scanf("%s", p.username);
+            printf("Enter new password: ");
+            scanf("%s", p.password);
+            fseek(p2, 0, SEEK_END);
+            fwrite(&p, sizeof(p), 1, p2);
+            fclose(p2);
+        }
+        else {
+            char unm[maxsize];char pwd[maxsize];
+            int option;
+            int l=1;
+            printf("Your new username : %s\n",p.username);
+            printf("Your new password : %s\n",p.password);
+            printf("Total no.of Attempts : 3\n");
+            do{
+                printf("\t\t================Login==================\t\t\t\n");
+                printf("No.Of Attempts Remaining : %d\n",4-l);
+                printf("Enter Username : ");
+                scanf("%s",unm);
+                printf("Enter Password : ");
+                scanf("%s",pwd);
+            
+                if(strcmp(p.username,unm)==0&&strcmp(p.password,pwd)==0)
+                break;
+                else {
+                    printf("Enter correct Username And Password\n");
+                    l++;
+                }
+            }while(l<=3);
+            if(l>3)
+            {
+                printf("Sorry!Login Failed.");
+                exit(0);
+            }
+        }
     }
-    else {
-    char unm[maxsize];char pwd[maxsize];
-    int option;
-    int l=1;
-    printf("Total no.of Attempts : 3\n");
-    do{
-    printf("\t\t================Login==================\t\t\t\n");
-    printf("No.Of Attempts Remaining : %d\n",4-l);
-    printf("Enter Username : ");
-    scanf("%s",unm);
-    printf("Enter Password : ");
-    scanf("%s",pwd);
-    if(strcmp(p.username,unm)==0&&strcmp(p.password,pwd)==0)
-        break;
-    else {
-             printf("Enter correct Username And Password\n");
-                   l++;
-         }
-    }while(l<=3);
-    if(l>3)
-    {
-        printf("Sorry!Login Failed.");
-        exit(0);
-    }
-}
 }
 
+//checks the file empty or not
+int check_empty(FILE*fp){
+	if(fp!=NULL){
+		fseek(fp, 0, SEEK_END);
+		int size= ftell(fp);
+		if(0==size){
+			return 1;
+		}
+		return 0;
+	}
+}
