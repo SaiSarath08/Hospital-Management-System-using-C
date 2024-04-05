@@ -4,7 +4,6 @@
 #include <time.h>
 #include <ctype.h>
 
-
 #define maxsize 50
 #define maxdate 15
 #define maxdisease 300
@@ -69,6 +68,7 @@ void searchbysurname(FILE*fp);
 void searchbyadmitdate(FILE*fp);
 void searchbydoctor(FILE*fp);
 void searchbyid(FILE*fp);
+//function for storing details when a patient revisited
 void revisitpatient(FILE*fp);
 //functions for validations
 int isleapyear(int year);
