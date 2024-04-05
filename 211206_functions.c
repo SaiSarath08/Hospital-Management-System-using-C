@@ -889,8 +889,6 @@ void login(FILE*p2) //a login interface
             char unm[maxsize];char pwd[maxsize];
             int option;
             int l=1;
-            printf("Your new username : %s\n",p.username);
-            printf("Your new password : %s\n",p.password);
             printf("Total no.of Attempts : 3\n");
             do{
                 printf("\t\t================Login==================\t\t\t\n");
